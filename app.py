@@ -26,6 +26,28 @@ def login():
             st.error("❌ Invalid username or password")
 
 # --- MAIN APP ---
+def login():
+    st.title("🔑 Login")
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+    if st.button("Login"):
+        if username in USER_CREDENTIALS and USER_CREDENTIALS[username] == password:
+            st.session_state.logged_in = True
+            st.success("✅ Login successful!")
+            st.experimental_rerun()
+        else:
+            st.error("❌ Invalid username or password")
+
+# --- MAIN APP ---
+if not st.session_state.logged_in:
+    login()
+else:
+    # Load model
+    model = joblib.load("model.pkl")
+
+    st.title("🧠 Mental Health Risk Predictor")
+    st.markdown("Answer the questions below to check mental health risk.")
+
 if not st.session_state.logged_in:
     login()
 else:
